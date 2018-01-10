@@ -1,0 +1,137 @@
+Traceback (most recent call last):
+  File "D:\AI\Python35\lib\site-packages\django\core\handlers\exception.py", line 35, in inner
+    response = get_response(request)
+  File "D:\AI\Python35\lib\site-packages\django\core\handlers\base.py", line 128, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\AI\Python35\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\AI\Python35\lib\site-packages\django\test\utils.py", line 371, in inner
+    return func(*args, **kwargs)
+  File "E:\PyCharmWork\PythonWebApp\ApiPicDjangoSite\PicWeb\views.py", line 28, in picAnalysis
+    print('image-->', im.size)
+OSError: raw write() returned invalid length 44 (should have been between 0 and 22)
+[09/Jan/2018 10:56:50] "POST /pic/analysis/ HTTP/1.1" 500 77271
+
+
+
+
+--- Logging error ---
+Traceback (most recent call last):
+  File "D:\AI\Python35\lib\logging\__init__.py", line 983, in emit
+    stream.write(self.terminator)
+OSError: raw write() returned invalid length 126 (should have been between 0 and 63)  #https://stackoverflow.com/questions/35394616/oserror-raw-readinto-returned-invalid-length-when-use-websockets
+Call stack:
+  File "D:\AI\Python35\lib\threading.py", line 882, in _bootstrap
+    self._bootstrap_inner()
+  File "D:\AI\Python35\lib\threading.py", line 914, in _bootstrap_inner
+    self.run()
+  File "D:\AI\Python35\lib\threading.py", line 862, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\AI\Python35\lib\socketserver.py", line 625, in process_request_thread
+    self.finish_request(request, client_address)
+  File "D:\AI\Python35\lib\socketserver.py", line 354, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "D:\AI\Python35\lib\socketserver.py", line 681, in __init__
+    self.handle()
+  File "D:\AI\Python35\lib\site-packages\django\core\servers\basehttp.py", line 154, in handle
+    handler.run(self.server.get_app())
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 138, in run
+    self.finish_response()
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 183, in finish_response
+    self.close()
+  File "D:\AI\Python35\lib\wsgiref\simple_server.py", line 36, in close
+    self.status.split(' ',1)[0], self.bytes_sent
+  File "D:\AI\Python35\lib\http\server.py", line 540, in log_request
+    self.requestline, str(code), str(size))
+  File "D:\AI\Python35\lib\site-packages\django\core\servers\basehttp.py", line 124, in log_message
+    level(format, *args, extra=extra)
+Message: '"%s" %s %s'
+Arguments: ('POST /pic/analysis/ HTTP/1.1', '200', '159')
+
+
+
+
+
+
+
+
+
+Traceback (most recent call last):
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 138, in run
+    self.finish_response()
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 180, in finish_response
+    self.write(data)
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 274, in write
+    self.send_headers()
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 332, in send_headers
+    self.send_preamble()
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 252, in send_preamble
+    self._write(('HTTP/%s %s\r\n' % (self.http_version,self.status)).encode('iso-8859-1'))
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 453, in _write
+    result = self.stdout.write(data)
+  File "D:\AI\Python35\lib\socket.py", line 593, in write
+    return self._sock.send(b)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。
+[09/Jan/2018 11:26:21] "POST /pic/analysis/ HTTP/1.1" 500 59
+----------------------------------------
+Exception happened during processing of request from ('192.168.7.144', 51853)
+Traceback (most recent call last):
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 138, in run
+    self.finish_response()
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 180, in finish_response
+    self.write(data)
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 274, in write
+    self.send_headers()
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 332, in send_headers
+    self.send_preamble()
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 252, in send_preamble
+    self._write(('HTTP/%s %s\r\n' % (self.http_version,self.status)).encode('iso-8859-1'))
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 453, in _write
+    result = self.stdout.write(data)
+  File "D:\AI\Python35\lib\socket.py", line 593, in write
+    return self._sock.send(b)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 141, in run
+    self.handle_error()
+  File "D:\AI\Python35\lib\site-packages\django\core\servers\basehttp.py", line 86, in handle_error
+    super().handle_error()
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 368, in handle_error
+    self.finish_response()
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 180, in finish_response
+    self.write(data)
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 274, in write
+    self.send_headers()
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 331, in send_headers
+    if not self.origin_server or self.client_is_modern():
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 344, in client_is_modern
+    return self.environ['SERVER_PROTOCOL'].upper() != 'HTTP/0.9'
+TypeError: 'NoneType' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AI\Python35\lib\socketserver.py", line 625, in process_request_thread
+    self.finish_request(request, client_address)
+  File "D:\AI\Python35\lib\socketserver.py", line 354, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "D:\AI\Python35\lib\socketserver.py", line 681, in __init__
+    self.handle()
+  File "D:\AI\Python35\lib\site-packages\django\core\servers\basehttp.py", line 154, in handle
+    handler.run(self.server.get_app())
+  File "D:\AI\Python35\lib\wsgiref\handlers.py", line 144, in run
+    self.close()
+  File "D:\AI\Python35\lib\wsgiref\simple_server.py", line 36, in close
+    self.status.split(' ',1)[0], self.bytes_sent
+AttributeError: 'NoneType' object has no attribute 'split'
+----------------------------------------
+
+
+
+
+
+
+

@@ -36,11 +36,11 @@ def to_one_hot(y,nb_class):
                 continue
             else:
                 x[i][8]=1
-        print('one-->',x)
+        #print('one-->',x)
         return x
-    except BaseException:
+    except BaseException as e:
 
-        print("to_one_hot Exception run ............<<><>")
+        print("to_one_hot Exception run ............<<><>",e)
 
 
 #测试集的one-hot
@@ -68,8 +68,8 @@ def one_hot_ten(y,nb_class):
             else:
                 x[j][8]=1
         return x
-    except BaseException:
-        print("one_hot_ten Exception run ...............<<<<<<<<<")
+    except BaseException as e:
+        print("one_hot_ten Exception run ...............<<<<<<<<<",e)
 
 
 if __name__ == "__main__":

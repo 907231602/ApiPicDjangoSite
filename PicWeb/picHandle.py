@@ -54,14 +54,14 @@ def testPredictDataHandle200(im):
         X = list()
         Y = list()
         im_size = im.size
-        print("图片信息：",im_size)
+        #print("图片信息：",im_size)
 
         numX=im_size[0]/200
         numY=im_size[1]/200
         # 第1块           个数
         w = im_size[0] / numX  # 设置被切长度  13.66/2 的倍数
         h = im_size[1] / numY  # 设置被切宽度  7.28/2的倍数
-        print(w,h)
+        #print(w,h)
         x = 0  # 长
         y = 0  # 宽
 
@@ -80,8 +80,8 @@ def testPredictDataHandle200(im):
         Y = np.array(Y)
 
         return (X, Y)
-    except BaseException:
-        print('testPredictDataHandle200 Exception run.............>>>>>>')
+    except BaseException as e:
+        print('testPredictDataHandle200 Exception run.............>>>>>>',e)
 
 
 
@@ -91,7 +91,7 @@ if __name__ == "__main__":
     imageHandle = Image.open(path)
     L = imageHandle.convert('L')  # 转化为灰度图
     im_array = np.array(L)
-    x,y=testPredictDataHandle200(im_array)
+    x , y=testPredictDataHandle200(im_array)
     #for i in range(28):
     print(x.shape)
 
