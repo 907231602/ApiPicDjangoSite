@@ -24,6 +24,46 @@ SECRET_KEY = '%%*wnnd&f0an#a=44@^+%j%zppvo1-dk_+8$fyhoq3!jvq796q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+#参考：http://blog.csdn.net/novostary/article/details/52424116
+#https://www.cnblogs.com/zhangqunshi/p/6641173.html
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        }, # 针对 DEBUG = True 的情况
+    },
+    #formatters: 指定输出的格式，被handler使用。
+    'formatters': {
+        'standard': {
+            #%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s
+            'format': '%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s'
+        }, # 对日志信息进行格式化，每个字段对应了日志格式中的一个字段，更多字段参考官网文档，我认为这些字段比较合适，输出类似于下面的内容
+        # INFO 2016-09-03 16:25:20,067 /home/ubuntu/mysite/views.py views.py views get 29: some info...
+    },
+    #handlers： 指定输出到控制台还是文件中，以及输出的方式。被logger引用。
+    'handlers': {
+
+        'console':{
+            'level': 'INFO',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard'
+        },
+    },
+    #loggers： 指定django中的每个模块使用哪个handlers。以及日志输出的级别。
+    'loggers': {
+        'picweb': {
+            'handlers' :['console'],
+            'level':'DEBUG',
+            'propagate': True # 是否继承父类的log信息
+        }, # handlers 来自于上面的 handlers 定义的内容
+
+    }
+}
+
+
 
 #ALLOWED_HOSTS = []
 ALLOWED_HOSTS="*"

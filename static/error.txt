@@ -1,3 +1,5 @@
+
+===============================OSError: raw write()================================================
 Traceback (most recent call last):
   File "D:\AI\Python35\lib\site-packages\django\core\handlers\exception.py", line 35, in inner
     response = get_response(request)
@@ -53,7 +55,7 @@ Arguments: ('POST /pic/analysis/ HTTP/1.1', '200', '159')
 
 
 
-
+==========================ConnectionResetError: [WinError 10054]=================================================
 
 
 Traceback (most recent call last):
@@ -129,6 +131,46 @@ Traceback (most recent call last):
 AttributeError: 'NoneType' object has no attribute 'split'
 ----------------------------------------
 
+
+
+
+===============================sys.stdout.write(info)=======================================================
+
+
+
+Internal Server Error: /pic/train/
+Traceback (most recent call last):
+  File "D:\AI\Python35\lib\site-packages\django\core\handlers\exception.py", line 35, in inner
+    response = get_response(request)
+  File "D:\AI\Python35\lib\site-packages\django\core\handlers\base.py", line 128, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "D:\AI\Python35\lib\site-packages\django\core\handlers\base.py", line 126, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "E:\PyCharmWork\PythonWebApp\ApiPicDjangoSite\PicWeb\views.py", line 94, in trainPic
+    bankTrain.Cnn_bank_run(lineData,linefile)
+  File "E:\PyCharmWork\PythonWebApp\ApiPicDjangoSite\PicWeb\Cnn_Bank_train.py", line 70, in Cnn_bank_run
+    modelTrain.modelTrain_ByType(kwargs[1],X_train,Y_train,X_test,Y_test)
+  File "E:\PyCharmWork\PythonWebApp\ApiPicDjangoSite\PicWeb\trainModel_init.py", line 113, in modelTrain_ByType
+    verbose=1, validation_data=(kwgs[3], kwgs[4]))
+  File "D:\AI\Python35\lib\site-packages\keras\models.py", line 960, in fit
+    validation_steps=validation_steps)
+  File "D:\AI\Python35\lib\site-packages\keras\engine\training.py", line 1650, in fit
+    validation_steps=validation_steps)
+  File "D:\AI\Python35\lib\site-packages\keras\engine\training.py", line 1233, in _fit_loop
+    callbacks.on_epoch_end(epoch, epoch_logs)
+  File "D:\AI\Python35\lib\site-packages\keras\callbacks.py", line 73, in on_epoch_end
+    callback.on_epoch_end(epoch, logs)
+  File "D:\AI\Python35\lib\site-packages\keras\callbacks.py", line 306, in on_epoch_end
+    self.progbar.update(self.seen, self.log_values, force=True)
+  File "D:\AI\Python35\lib\site-packages\keras\utils\generic_utils.py", line 369, in update
+    sys.stdout.write(info)
+OSError: raw write() returned invalid length 254 (should have been between 0 and 127)
+[12/Jan/2018 10:50:56] "POST /pic/train/ HTTP/1.1" 500 182654
+56/56 [==============================] - 26s 463ms/step - loss: 1.7644 - acc: 0.2500 - val_loss: 3.7221 - val_acc: 0.0000e+00
+Exception ignored in: <bound method BaseSession.__del__ of <tensorflow.python.client.session.Session object at 0x000001C3CF4ACD68>>
+Traceback (most recent call last):
+  File "D:\AI\Python35\lib\site-packages\tensorflow\python\client\session.py", line 696, in __del__
+TypeError: 'NoneType' object is not callable
 
 
 

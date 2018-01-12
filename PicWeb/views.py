@@ -6,6 +6,10 @@ from django.core.serializers import serialize
 from django.test import override_settings
 import numpy as np
 from PIL import Image
+import datetime
+import os
+from . import Cnn_Bank_train as bankTrain
+import logging
 
 # Create your views here.
 
@@ -38,23 +42,66 @@ def picAnalysis(request):
         print("远程主机强迫关闭了一个现有的连接",ce)
 
 
-#保存图片
+#保存图片，以日期(天)为单位，在日期文件下判断类别是否存在，否就创建，在类别下保留图片.  日期->类别->图片
+#打算每周删除一些前一周的图片
 def savePic(request):
     try:
+        basepath='static\\imageTrain'
         req = simplejson.loads(request.body)
-        name = req['Name']
-        #print(name)
+        name = str(req['Name']).split('_')
+
         # 对图片进行处理，把传过来的数组进行还原
         listpic = req['KeyWord']
-
-        ar = np.array(listpic).reshape(1366,728)
+        print('%s' % listpic)
+        ar = np.array(listpic).reshape(2,4)
         ar = ar.T  # 倒置,目的是把图片还原
         im = Image.fromarray(ar.astype('uint8'))
-        im.save('static\\imageTrain\\%s.png' , name)
+
+        nowFile=datetime.datetime.now().strftime('%Y%m%d')  #今天文件
+        now=datetime.datetime.now().strftime('%Y%m%d%H%M%S')#当前时间
+        is_exit=os.path.exists(basepath+'\\%s' % nowFile)
+        if(is_exit):
+            pass
+        else:
+            os.makedirs(basepath+'\\%s' % nowFile)
+        is_fileExit=os.path.exists(basepath+'\\%s\\%s' % (nowFile,name[0]))
+        if (is_fileExit):
+            pass
+        else:
+            os.makedirs(basepath+'\\%s\\%s' % (nowFile,name[0]))
+        im.save(basepath+'\\%s\\%s\\%s_%s.png' % (nowFile,name[0],now,name[1]))
+
+        return JsonResponse({'info':'Ok'})
     except BaseException as e:
-        pass
+        print('savePic Exception ======>>', e)
+        return JsonResponse({'info': 'error'})
 
-#图片训练
+
+#图片训练,根据不同系统，训练成不同系统的库，并标记已经训练的库
 def trainPic(request):
-    pass
+    basePath='static\\imageTrain'
+    listFile = os.listdir(basePath)
+    #标记并判断，如果以“_”结尾，则不处理
+    for lineData in listFile:
+        if lineData.endswith('_'):
+            continue
+        else:
+            for linefile in os.listdir(basePath+'\\%s' % lineData):
+                if linefile.endswith('_'):
+                    continue
+                else:
+                    #bankTrain.getFile(lineData,linefile)
+                    bankTrain.Cnn_bank_run(lineData,linefile)
+                    os.renames(basePath+'\\%s\\%s' % (lineData,linefile),basePath+'\\%s\\%s%s' % (lineData,linefile,'_'))#标记训练完成
+            os.renames(basePath+'\\%s' % lineData,basePath+'\\%s%s' % (lineData,'_'))                 #标记训练完成
 
+    return JsonResponse({'num':listFile.__len__()})
+
+
+def filepath():
+    print(os.path.exists('static\\imageTrain'))
+
+
+
+if __name__=='__main__':
+    filepath()
