@@ -1,3 +1,5 @@
+#!/usr/bin/env python3.5.2
+# -*- coding: utf-8 -*-
 from django.http import JsonResponse
 from PicWeb.PreDictBankFunc import predictBank
 from PicWeb.models import Pic

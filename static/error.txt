@@ -135,8 +135,8 @@ AttributeError: 'NoneType' object has no attribute 'split'
 
 
 ===============================sys.stdout.write(info)=======================================================
-
-
+参考：https://stackoverflow.com/questions/47356993/oserror-raw-write-returned-invalid-length-when-using-print-in-python
+搜狗：OSError: raw write() returned invalid length
 
 Internal Server Error: /pic/train/
 Traceback (most recent call last):

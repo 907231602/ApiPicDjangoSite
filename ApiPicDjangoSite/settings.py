@@ -44,7 +44,14 @@ LOGGING = {
     },
     #handlers： 指定输出到控制台还是文件中，以及输出的方式。被logger引用。
     'handlers': {
-
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'static\\django.log',
+            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'backupCount': 100,
+            'formatter': 'standard',
+        },
         'console':{
             'level': 'INFO',
             'filters': ['require_debug_true'],
@@ -55,7 +62,7 @@ LOGGING = {
     #loggers： 指定django中的每个模块使用哪个handlers。以及日志输出的级别。
     'loggers': {
         'picweb': {
-            'handlers' :['console'],
+            'handlers' :['file'],
             'level':'DEBUG',
             'propagate': True # 是否继承父类的log信息
         }, # handlers 来自于上面的 handlers 定义的内容

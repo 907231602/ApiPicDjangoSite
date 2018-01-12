@@ -1,3 +1,5 @@
+#!/usr/bin/env python3.5.2
+# -*- coding: utf-8 -*-
 from . import my_one_hot as ones
 import numpy as np
 
@@ -8,7 +10,8 @@ from keras.layers import Convolution2D, MaxPooling2D
 
 from PicWeb import *
 from keras import backend as K
-
+import win_unicode_console
+win_unicode_console.enable()
 
 # http://blog.csdn.net/lujiandong1/article/details/55806435
 
