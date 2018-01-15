@@ -30,7 +30,7 @@ def predictBank(ar,name):
     #print(X_test.shape[0], 'test samples')
     #print("X_test===>>>>",X_test) #不要随意打印，打印就报错，很奇怪
     # 转换为one_hot类型
-    Y_test = ones.one_hot_ten(y_test, nb_classes)
+    #Y_test = ones.one_hot_ten(y_test, nb_classes)
     #print('one-hot-test:', Y_test) #不要随意打印，打印就报错，很奇怪
 
 
@@ -39,6 +39,7 @@ def predictBank(ar,name):
     listOne = result[0:28]  #获取4*7=28张图片的结果
 
     oneResult = analysisType.resultType(listOne)
+
 
     # js_信用卡: 1 # js_投资 :  2  # js_生活':  3  # js_登录':  4  # js_网银':  5
     # js_贷款',  6 # js_资产',  7  # js_转账',  8  # js_首页',  9

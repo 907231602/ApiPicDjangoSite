@@ -10,6 +10,7 @@ np.random.seed(1520)  # for reproducibility
 from . import picHandle
 from PicWeb import trainModel_init as modelTrain
 from keras import backend as K
+import os
 
 #http://blog.csdn.net/lujiandong1/article/details/55806435
 
@@ -19,7 +20,9 @@ def getFile(*kwargs):
 
 def Cnn_bank_run(*kwargs):
     basePath='static\\imageTrain'+'\\%s\\%s' % (kwargs[0],kwargs[1])#日期文件夹+系统类别文件夹
-
+    filesname=os.listdir(basePath)
+    for files in filesname:
+        pass
 
     # 全局变量
     batch_size = 18

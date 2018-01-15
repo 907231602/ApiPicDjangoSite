@@ -11,7 +11,7 @@ from PIL import Image
 import datetime
 import os
 from . import Cnn_Bank_train as bankTrain
-import logging
+from . import ScreenExpansion as screen
 
 # Create your views here.
 
@@ -24,24 +24,59 @@ def picAnalysis(request):
         #print(name)
         # 对图片进行处理，把传过来的数组进行还原
         listpic = req['KeyWord']
-
         ar = np.array(listpic).reshape(1366,728)
         ar = ar.T  # 倒置,目的是把图片还原
         im = Image.fromarray(ar.astype('uint8'))
-        #im.save('static\\image\\tt.png')
+        #修改屏幕大小
+        screen.ScreenExpans(im)
         prenum=predictBank(im, name)  #对图片进行预测，并返回预测结果
-        #print('image-->', im.size)
         im.close()
         list = ['信用卡', '投资', '生活', '登录', '网银', '贷款', '资产', '转账', '首页']
 
         pic = Pic()
         pic.picName = name
         pic.picNumType = prenum
-        pic.picTypeName = list[prenum - 1]
+        if (prenum == 0):
+            pic.picTypeName='未知页面'
+        else:
+            pic.picTypeName = list[prenum - 1]
         d = simplejson.loads(serialize('json', [pic])[1:-1])
         return JsonResponse(d)
     except ConnectionResetError as ce:
         print("远程主机强迫关闭了一个现有的连接",ce)
+
+# 根据系统名称进行分类图片分类、识别,返回json类型的图片数据
+@override_settings(DATA_UPLOAD_MAX_MEMORY_SIZE=10242880)
+def picAnalysisBySysName(request):
+    try:
+        req = simplejson.loads(request.body)
+        name = req['Name']  #系统名称
+        # 对图片进行处理，把传过来的数组进行还原
+        listpic = req['KeyWord']  #图片数组
+        print(np.array(listpic).shape)
+        ar = np.array(listpic).reshape(1366, 728)
+        ar = ar.T  # 倒置,目的是把图片还原
+        im = Image.fromarray(ar.astype('uint8'))
+        # im.save('static\\image\\tt.png')
+        prenum = predictBank(im, name)  # 对图片进行预测，并返回预测结果
+        # print('image-->', im.size)
+        im.close()
+        list = ['信用卡', '投资', '生活', '登录', '网银', '贷款', '资产', '转账', '首页']
+
+        pic = Pic()
+        pic.picName = name
+        pic.picNumType = prenum
+        #如果返回值为0,表示该页面不属于该系统页面
+        print(type(prenum))
+        if (prenum == 0):
+            pic.picTypeName='未知页面'
+        else:
+            pic.picTypeName = list[prenum - 1]
+        d = simplejson.loads(serialize('json', [pic])[1:-1])
+        return JsonResponse(d)
+    except ConnectionResetError as ce:
+        print("远程主机强迫关闭了一个现有的连接", ce)
+
 
 
 #保存图片，以日期(天)为单位，在日期文件下判断类别是否存在，否就创建，在类别下保留图片.  日期->类别->图片

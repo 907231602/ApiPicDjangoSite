@@ -10,6 +10,7 @@ from keras.layers import Convolution2D, MaxPooling2D
 
 from PicWeb import *
 from keras import backend as K
+#安装pip install  win_unicode_consoles
 import win_unicode_console
 win_unicode_console.enable()
 

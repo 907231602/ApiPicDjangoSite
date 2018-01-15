@@ -26,4 +26,5 @@ trainModel.Cnn_bank_train_init()
 def picType_class(comment):
     global model
     result_vec = model.predict(comment)
+    #print(result_vec)
     return result_vec
