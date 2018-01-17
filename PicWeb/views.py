@@ -10,7 +10,7 @@ import numpy as np
 from PIL import Image
 import datetime
 import os
-from . import Cnn_Bank_train as bankTrain
+from . import Cnn_train_1920_1080 as bankTrain
 from . import ScreenExpansion as screen
 
 # Create your views here.
@@ -81,6 +81,7 @@ def picAnalysisBySysName(request):
 
 #保存图片，以日期(天)为单位，在日期文件下判断类别是否存在，否就创建，在类别下保留图片.  日期->类别->图片
 #打算每周删除一些前一周的图片
+@override_settings(DATA_UPLOAD_MAX_MEMORY_SIZE=10242880)
 def savePic(request):
     try:
         basepath='static\\imageTrain'
@@ -89,10 +90,14 @@ def savePic(request):
 
         # 对图片进行处理，把传过来的数组进行还原
         listpic = req['KeyWord']
-        print('%s' % listpic)
-        ar = np.array(listpic).reshape(2,4)
+
+        shapePic=np.array(listpic).shape
+        print('===>数组大小：',shapePic[0], shapePic[1])
+        ar = np.array(listpic).reshape(shapePic[0],shapePic[1])
         ar = ar.T  # 倒置,目的是把图片还原
         im = Image.fromarray(ar.astype('uint8'))
+        # 修改屏幕大小
+        im=screen.ScreenExpans(im)
 
         nowFile=datetime.datetime.now().strftime('%Y%m%d')  #今天文件
         now=datetime.datetime.now().strftime('%Y%m%d%H%M%S')#当前时间
@@ -110,7 +115,6 @@ def savePic(request):
 
         return JsonResponse({'info':'Ok'})
     except BaseException as e:
-        print('savePic Exception ======>>', e)
         return JsonResponse({'info': 'error'})
 
 
@@ -118,7 +122,7 @@ def savePic(request):
 def trainPic(request):
     basePath='static\\imageTrain'
     listFile = os.listdir(basePath)
-    #标记并判断，如果以“_”结尾，则不处理
+    #训练不是以‘—’结尾的，标记并判断，如果以“_”结尾，则不处理
     for lineData in listFile:
         if lineData.endswith('_'):
             continue
@@ -128,11 +132,13 @@ def trainPic(request):
                     continue
                 else:
                     #bankTrain.getFile(lineData,linefile)
-                    bankTrain.Cnn_bank_run(lineData,linefile)
+                    bankTrain.Cnn_run(lineData,linefile)
                     os.renames(basePath+'\\%s\\%s' % (lineData,linefile),basePath+'\\%s\\%s%s' % (lineData,linefile,'_'))#标记训练完成
             os.renames(basePath+'\\%s' % lineData,basePath+'\\%s%s' % (lineData,'_'))                 #标记训练完成
 
     return JsonResponse({'num':listFile.__len__()})
+
+
 
 
 def filepath():

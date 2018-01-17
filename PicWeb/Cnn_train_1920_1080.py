@@ -1,5 +1,9 @@
 #!/usr/bin/env python3.5.2
 # -*- coding: utf-8 -*-
+
+#训练图片，图片大小（1920*1080）
+
+
 from . import my_one_hot as ones
 import numpy as np
 np.random.seed(1520)  # for reproducibility
@@ -18,15 +22,21 @@ def getFile(*kwargs):
     print(kwargs)
 
 
-def Cnn_bank_run(*kwargs):
+def Cnn_run(*kwargs):
     basePath='static\\imageTrain'+'\\%s\\%s' % (kwargs[0],kwargs[1])#日期文件夹+系统类别文件夹
-    nb_classes=9
+    filesname=os.listdir(basePath)
+    listType=list()
+    for files in filesname:
+        listType.append(files[15:].split('.')[0])
+
+    nb_classes=set(listType).__len__()
+
     # 全局变量
-    img_rows, img_cols=200,200
+    img_rows, img_cols =200,200
 
     # the data, shuffled and split between train and tNewest sets
-    (X_train, y_train) = picHandle.trainDataBankHandle200(kwargs[1],basePath) #系统名称+
-    (X_test, y_test) = picHandle.testDataBankHandle200(kwargs[1],basePath)
+    (X_train, y_train,Y_train) = picHandle.trainDataBankHandle200(kwargs[1],basePath) #系统名称+路径
+    (X_test, y_test,Y_test) = picHandle.testDataBankHandle200(kwargs[1],basePath)
 
     # 根据不同的backend定下不同的格式
     if K.image_dim_ordering() == 'th':
@@ -44,8 +54,8 @@ def Cnn_bank_run(*kwargs):
     X_test /= 255
 
     # 转换为one_hot类型
-    Y_train=ones.to_one_hot(y_train,nb_classes)
-    Y_test =ones.one_hot_ten(y_test,nb_classes)
+   # Y_train=ones.to_one_hot(y_train,nb_classes)
+    #Y_test =ones.one_hot_ten(y_test,nb_classes)
 
     modelTrain.modelTrain_ByType(kwargs[1],X_train,Y_train,X_test,Y_test)
 
